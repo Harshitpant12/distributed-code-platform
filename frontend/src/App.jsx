@@ -8,18 +8,30 @@ function App() {
   }
 
   useEffect(() => {
+
     socket.on("connect", () => {
-      console.log("Connected: ", socket.id);
-    })
+      console.log("Connected:", socket.id);
+    });
+
+    socket.on("user-joined", (id) => {
+      console.log("Another user joined:", id);
+    });
 
     return () => {
       socket.off("connect");
-    }
-  }, [])
+      socket.off("user-joined");
+    };
+
+  }, []);
+
   return (
     <div className='bg-amber-400'>
       App is live
-      <button className='block bg-red-400 text-black' onClick={joinRoom}>
+
+      <button
+        className='block bg-red-400 text-black'
+        onClick={joinRoom}
+      >
         Join Room
       </button>
     </div>
